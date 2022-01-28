@@ -33,7 +33,6 @@ class App extends Component {
         SimpleStorageContract.abi,
         deployedNetwork && deployedNetwork.address
       );
-      //console.log(instance);
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
@@ -47,19 +46,20 @@ class App extends Component {
     }
   };
 
-  runExample = async (ipfsHash) => {
+  runExample = async () => {
     const { accounts, contract } = this.state;
-    console.log(ipfsHash);
+    //console.log(ipfsHash);
     // Stores a given value, 5 by default.
     //console.log(accounts[0]);
-    await contract.methods.set(5).send({ from: accounts[0] });
+
+    //await contract.methods.set(5).send({ from: accounts[0] });
 
     // Get the value from the contract to prove it worked.
     const response = await contract.methods.get().call();
 
     // Update state with the result.
-    this.setState({ ipfsHash });
-    this.setState({ storageValue: response });
+    this.setState({ ipfsHash: response });
+    // this.setState({ storageValue: response });
   };
 
   captureFile(event) {
@@ -75,20 +75,21 @@ class App extends Component {
   }
 
   onSubmit(event) {
+    const { accounts, contract } = this.state;
     event.preventDefault();
+    console.log(contract);
     //console.log("on submit...");
     ipfs.files.add(this.state.buffer, (error, result) => {
       if (error) {
         console.error(error);
         return;
       }
-      this.contract
-        .set(result[0].hash, {
-          from: this.state.accounts,
-        })
+      contract.methods
+        .set(result[0].hash)
+        .send({ from: accounts[0] })
         .then((r) => {
           //get the value from the contract to prove it worked
-          return this.contract.get.call(this.state.accounts);
+          return contract.methods.get().call();
         })
         .then((ipfsHash) => {
           //update state with the result
