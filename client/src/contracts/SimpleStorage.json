@@ -42,14 +42,24 @@
   "ast": {
     "absolutePath": "project:/contracts/SimpleStorage.sol",
     "exportedSymbols": {
-      "SimpleStorage": [59]
+      "SimpleStorage": [
+        59
+      ]
     },
     "id": 60,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 38,
-        "literals": ["solidity", ">=", "0.4", ".21", "<", "8.10", ".0"],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".21",
+          "<",
+          "8.10",
+          ".0"
+        ],
         "nodeType": "PragmaDirective",
         "src": "32:33:1"
       },
@@ -60,7 +70,9 @@
         "documentation": null,
         "fullyImplemented": true,
         "id": 59,
-        "linearizedBaseContracts": [59],
+        "linearizedBaseContracts": [
+          59
+        ],
         "name": "SimpleStorage",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -286,13 +298,23 @@
     "attributes": {
       "absolutePath": "project:/contracts/SimpleStorage.sol",
       "exportedSymbols": {
-        "SimpleStorage": [59]
+        "SimpleStorage": [
+          59
+        ]
       }
     },
     "children": [
       {
         "attributes": {
-          "literals": ["solidity", ">=", "0.4", ".21", "<", "8.10", ".0"]
+          "literals": [
+            "solidity",
+            ">=",
+            "0.4",
+            ".21",
+            "<",
+            "8.10",
+            ".0"
+          ]
         },
         "id": 38,
         "name": "PragmaDirective",
@@ -300,12 +322,18 @@
       },
       {
         "attributes": {
-          "baseContracts": [null],
-          "contractDependencies": [null],
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
           "contractKind": "contract",
           "documentation": null,
           "fullyImplemented": true,
-          "linearizedBaseContracts": [59],
+          "linearizedBaseContracts": [
+            59
+          ],
           "name": "SimpleStorage",
           "scope": 60
         },
@@ -342,7 +370,9 @@
               "implemented": true,
               "isConstructor": false,
               "kind": "function",
-              "modifiers": [null],
+              "modifiers": [
+                null
+              ],
               "name": "set",
               "scope": 59,
               "stateMutability": "nonpayable",
@@ -385,7 +415,9 @@
               },
               {
                 "attributes": {
-                  "parameters": [null]
+                  "parameters": [
+                    null
+                  ]
                 },
                 "children": [],
                 "id": 44,
@@ -410,7 +442,9 @@
                           {
                             "attributes": {
                               "argumentTypes": null,
-                              "overloadedDeclarations": [null],
+                              "overloadedDeclarations": [
+                                null
+                              ],
                               "referencedDeclaration": 40,
                               "type": "string storage ref",
                               "value": "ipfsHash"
@@ -422,7 +456,9 @@
                           {
                             "attributes": {
                               "argumentTypes": null,
-                              "overloadedDeclarations": [null],
+                              "overloadedDeclarations": [
+                                null
+                              ],
                               "referencedDeclaration": 42,
                               "type": "string memory",
                               "value": "x"
@@ -457,7 +493,9 @@
               "implemented": true,
               "isConstructor": false,
               "kind": "function",
-              "modifiers": [null],
+              "modifiers": [
+                null
+              ],
               "name": "get",
               "scope": 59,
               "stateMutability": "view",
@@ -467,7 +505,9 @@
             "children": [
               {
                 "attributes": {
-                  "parameters": [null]
+                  "parameters": [
+                    null
+                  ]
                 },
                 "children": [],
                 "id": 51,
@@ -517,7 +557,9 @@
                       {
                         "attributes": {
                           "argumentTypes": null,
-                          "overloadedDeclarations": [null],
+                          "overloadedDeclarations": [
+                            null
+                          ],
                           "referencedDeclaration": 40,
                           "type": "string storage ref",
                           "value": "ipfsHash"
@@ -559,12 +601,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0xf7e0616A95994EDf190A9e256C735cf7A8bC7511",
-      "transactionHash": "0xb248d1461bbeaa090722ca5f9547a181a1cac860ca6609d4c21f945feb831969"
+      "address": "0x3bAc5E896518C7B9C7620ea635414567E6706213",
+      "transactionHash": "0x9b755e39fbb7d05a16ef5a5820c7024502f884adc882b16874c08b59e3658a88"
     }
   },
   "schemaVersion": "3.4.4",
-  "updatedAt": "2022-01-28T18:02:07.714Z",
+  "updatedAt": "2022-01-31T19:36:39.194Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

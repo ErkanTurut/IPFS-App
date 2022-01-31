@@ -53,6 +53,7 @@ class App extends Component {
     //console.log(accounts[0]);
 
     //await contract.methods.set(5).send({ from: accounts[0] });
+    //console.log(accounts);
 
     // Get the value from the contract to prove it worked.
     const response = await contract.methods.get().call();
@@ -63,7 +64,7 @@ class App extends Component {
   };
 
   captureFile(event) {
-    console.log("capture file...");
+    //console.log("capture file...");
     event.preventDefault();
     const file = event.target.files[0];
     const reader = new window.FileReader();
@@ -89,12 +90,9 @@ class App extends Component {
         .send({ from: accounts[0] })
         .then((r) => {
           //get the value from the contract to prove it worked
-          return contract.methods.get().call();
-        })
-        .then((ipfsHash) => {
-          //update state with the result
-          this.setState({ ipfsHash });
-          console.log("ipfsHash", ipfsHash);
+          return this.setState({ ipfsHash: result[0].hash });
+          console.log("ipfsHash", this.state.ipfsHash);
+          // return contract.methods.get().call();
         });
     });
   }
