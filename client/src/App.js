@@ -5,6 +5,10 @@ import ipfs from "./ipfs";
 
 import "./App.css";
 
+window.ethereum.on("accountsChanged", async () => {
+  window.location.reload(false);
+});
+
 class App extends Component {
   state = {
     storageValue: 0,
@@ -24,7 +28,6 @@ class App extends Component {
 
       // Use web3 to get the user's accounts.
       const accounts = await web3.eth.getAccounts();
-      //console.log(accounts);
 
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
@@ -33,6 +36,8 @@ class App extends Component {
         SimpleStorageContract.abi,
         deployedNetwork && deployedNetwork.address
       );
+
+      console.log(instance);
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
@@ -103,12 +108,37 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <h1>Your image</h1>
-        <p>This image is stored on IPFS & Ethereum blockchain</p>
-        <img src={`https://ipfs.io/ipfs/${this.state.ipfsHash}`} alt="" />
+        <h1>Votre image</h1>
+        <p>
+          Cette image est stocké sur l'IPFS et signé sur la blockchain Ethereum
+        </p>
+        <p>accounts : {this.state.accounts}</p>
+        <div className="ipfs-contracts">
+          <div className="contract-thumbnail">
+            <img
+              className="ipfs-thumbnail"
+              src={`https://ipfs.io/ipfs/${this.state.ipfsHash}`}
+              alt=""
+            />
+          </div>
+          <div className="contract-info">
+            <h3>Contract information :</h3>
+            <p>
+              address <br /> {this.state.contract._address}
+            </p>
+            <p>
+              file hash <br /> {this.state.ipfsHash}
+            </p>
+          </div>
+        </div>
+
         <h2>Upload Image</h2>
         <form onSubmit={this.onSubmit}>
-          <input type="file" onChange={this.captureFile} />
+          <input
+            type="file"
+            onChange={this.captureFile}
+            accept="image/png, image/jpeg"
+          />
           <input type="submit" />
         </form>
       </div>

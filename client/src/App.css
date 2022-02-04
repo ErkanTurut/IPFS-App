@@ -20,3 +20,19 @@
 .App-link {
   color: #09d3ac;
 }
+
+.ipfs-contracts {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.ipfs-thumbnail {
+  height: 15em;
+}
+
+.contract-info {
+  width: 20em;
+  margin-left: 1em;
+}

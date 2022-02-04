@@ -6,6 +6,7 @@ contract SimpleStorage {
 
   function set(string memory x) public {
     ipfsHash = x;
+
   }
 
   function get() public view returns (string memory) {
