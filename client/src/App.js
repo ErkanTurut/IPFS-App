@@ -16,7 +16,8 @@ class App extends Component {
     accounts: null,
     contract: null,
     buffer: null,
-    ipfsHash: "",
+    ipfsHash: [],
+    balance: 0,
   };
   captureFile = this.captureFile.bind(this);
   onSubmit = this.onSubmit.bind(this);
@@ -37,11 +38,19 @@ class App extends Component {
         deployedNetwork && deployedNetwork.address
       );
 
-      console.log(instance);
+      await instance.methods
+        ._balances(accounts[0])
+        .call()
+        .then((r) => {
+          //get the value from the contract to prove it worked
+          this.setState({ balance: r });
+        });
+
+      console.log(this.state.balance);
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance }, this.runExample);
+      this.setState({ web3, accounts, contract: instance }, this.run);
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -51,21 +60,27 @@ class App extends Component {
     }
   };
 
-  runExample = async () => {
-    const { accounts, contract } = this.state;
-    //console.log(ipfsHash);
-    // Stores a given value, 5 by default.
+  run = async () => {
+    const { accounts, contract, balance } = this.state;
+
     //console.log(accounts[0]);
 
     //await contract.methods.set(5).send({ from: accounts[0] });
-    //console.log(accounts);
-
-    // Get the value from the contract to prove it worked.
-    const response = await contract.methods.get().call();
-
-    // Update state with the result.
-    this.setState({ ipfsHash: response });
-    // this.setState({ storageValue: response });
+    //console.log(contract.methods._ownedTokens(accounts[0]).call());
+    //console.log(contract.methods._balances(accounts[0]).call());
+    for (let cpt = 0; cpt < balance; cpt++) {
+      // Get the value from the contract to prove it worked.
+      const response = await contract.methods
+        ._ownedTokens(accounts[0], cpt)
+        .call();
+      console.log(response);
+      var ipfsHash = this.state.ipfsHash;
+      ipfsHash[cpt] = response;
+      console.log(ipfsHash);
+      // Update state with the result.
+      this.setState({ ipfsHash });
+    }
+    console.log(this.state.ipfsHash.length);
   };
 
   captureFile(event) {
@@ -80,66 +95,80 @@ class App extends Component {
     };
   }
 
-  onSubmit(event) {
+  async onSubmit(event) {
     const { accounts, contract } = this.state;
     event.preventDefault();
     console.log(contract);
     //console.log("on submit...");
-    ipfs.files.add(this.state.buffer, (error, result) => {
+    await ipfs.files.add(this.state.buffer, async (error, result) => {
       if (error) {
         console.error(error);
         return;
       }
-      contract.methods
+      await contract.methods
         .set(result[0].hash)
         .send({ from: accounts[0] })
-        .then((r) => {
+        .then(async (r) => {
           //get the value from the contract to prove it worked
-          return this.setState({ ipfsHash: result[0].hash });
-          console.log("ipfsHash", this.state.ipfsHash);
+          var ipfsHash = this.state.ipfsHash;
+          ipfsHash[this.state.ipfsHash.length] = result[0].hash;
+          return this.setState({ ipfsHash });
           // return contract.methods.get().call();
         });
     });
+    //console.log("ipfsHash", this.state.ipfsHash[this.state.balance]);
   }
 
   render() {
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
-    return (
-      <div className="App">
-        <h1>Votre image</h1>
-        <p>
-          Cette image est stocké sur l'IPFS et signé sur la blockchain Ethereum
-        </p>
-        <p>accounts : {this.state.accounts}</p>
+    var galerie = [];
+
+    for (var i = 0; i < this.state.ipfsHash.length; i++) {
+      //console.log(i);
+      //console.log(this.state.balance);
+      var ipfsHash = this.state.ipfsHash[i];
+      //console.log(this.state.ipfsHash[i]);
+      galerie.push(
         <div className="ipfs-contracts">
           <div className="contract-thumbnail">
             <img
               className="ipfs-thumbnail"
-              src={`https://ipfs.io/ipfs/${this.state.ipfsHash}`}
+              src={`https://ipfs.io/ipfs/${ipfsHash}`}
               alt=""
             />
           </div>
           <div className="contract-info">
             <h3>Contract information :</h3>
-            <p>
-              address <br /> {this.state.contract._address}
-            </p>
-            <p>
-              file hash <br /> {this.state.ipfsHash}
-            </p>
+            <p>address : {this.state.contract._address}</p>
+            <p>file hash : {ipfsHash}</p>
           </div>
         </div>
+      );
+    }
+    //console.log(this.state.balance);
+    return (
+      <div className="App">
+        <h1>Ipfs project n1 </h1>
+        <p>
+          L'image est stocké sur le protocol IPFS, elle est ensuite signé sur un
+          smart contract sur la blockchain Ethereum.
+        </p>
+        <p>accounts : {this.state.accounts}</p>
+
+        <div>{galerie}</div>
 
         <h2>Upload Image</h2>
-        <form onSubmit={this.onSubmit}>
+
+        <form class="upload" onSubmit={this.onSubmit}>
           <input
             type="file"
             onChange={this.captureFile}
             accept="image/png, image/jpeg"
+            class="file-button"
           />
-          <input type="submit" />
+          <input type="submit" class="submit-button" value="Signer" />
         </form>
       </div>
     );
